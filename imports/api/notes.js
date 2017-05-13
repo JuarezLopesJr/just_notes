@@ -19,7 +19,7 @@ Meteor.methods({
       title: '',
       content: '',
       userId: this.userId,
-      updatedAt: moment().valueOf()
+      updatedAt: moment().format('MMM DD, YYYY')
     })
   },
 
@@ -65,7 +65,7 @@ Meteor.methods({
   },
     {
       $set: {
-        updatedAt: moment().valueOf(),
+        updatedAt: moment().format('MMM DD, YYYY'),
         ...updates // already validate code from SimpleSchema
         // it could be only the body, only the title or both updated
       }
