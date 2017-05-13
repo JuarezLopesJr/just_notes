@@ -1,17 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
+import { routes, onAuthChange } from '../imports/routes/Routes'
+import '../imports/startup/simpl_schema_config'
+import { Session } from 'meteor/session'
 
-const App = () => {
-  return (
-    <div>
-      <h1>Notes App Init</h1>
-    </div>
-  )
-}
+
+Tracker.autorun(() => {
+  const isAuth = !!Meteor.userId()
+  onAuthChange(isAuth)
+})
+
 
 Meteor.startup(() => {
     ReactDOM.render(
-      <App/>, document.querySelector('.render-target')
+      routes, document.querySelector('.render-target')
     )
   })

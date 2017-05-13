@@ -1,0 +1,26 @@
+// Separate styles to better maintain components
+
+// Colors variables
+$grey: #dddddd;
+$boxed-view-bg: #A5F2B8;
+$dark-grey: #777777;
+
+// Spacing variables
+$space: 1.4rem;
+$site-max-width: 50rem;
+
+// Fonts variables
+$base-font-size: 1.4rem;
+$large-font-size: 1.8rem;
+
+// Forms variables
+$input-border: $grey;
+$input-spacing: 1rem;
+// $item-bg:
+$item-border: darken(#f9f9f9, 10%);
+$item-text-color: $dark-grey;
+
+
+// Button variables
+// $button-bg: #18F0E5;
+// $button--pill-color: #18F0E5;

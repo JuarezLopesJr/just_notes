@@ -1,0 +1,41 @@
+.boxed-view {
+  background: #1c92d2;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #0f9b0f, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #0f9b0f, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.boxed-view--modal {
+  background: fade-out($boxed-view-bg, .3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.boxed-view__box {
+  background: #00C9FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  padding: 2.4rem;
+  text-align: center;
+  width: 24rem;
+}
+
+.boxed-view__form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+// .boxed-view {
+//   background: #dddddd;
+//   height: 100vh;
+//   width: 100vw;
+// }

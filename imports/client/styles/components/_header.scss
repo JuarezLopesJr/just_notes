@@ -1,0 +1,21 @@
+.header {
+  // background: #0f9b0f;
+  background: #43C6AC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #F8FFAE, #43C6AC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #F8FFAE, #43C6AC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
+  border: 1px solid $dark-grey
+}
+
+.header__content {
+  display: flex;
+  justify-content: space-between;
+  max-width: $site-max-width;
+  margin: 0 auto;
+  padding: $space
+}
+
+.header__title {
+  margin: 0;
+
+}

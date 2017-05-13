@@ -1,0 +1,44 @@
+.button {
+  // background-color: #18F0E5;
+  background: #43C6AC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #F8FFAE, #43C6AC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #F8FFAE, #43C6AC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  border: none;
+  // color: white;
+  cursor: pointer;
+  padding: $input-spacing;
+  text-transform: uppercase;
+  font-size: $base-font-size;
+  margin-bottom: $space;
+  line-height: 1.2;
+}
+
+.button--link {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #09D951;
+}
+
+.button--pill {
+  background-color: transparent;
+  border: 1px solid #18F0E5;
+  // color: $button--pill-color;
+  margin: 0 ($space / 2) 0 0;
+  padding: .3rem .8rem;
+}
+
+.button--secondary {
+  background: #ED6826;
+  border: 1px solid #dddddd;
+  color: #421904;
+}
+
+.button--link-text {
+  background: none;
+  // color: white;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+  text-transform: none;
+}
