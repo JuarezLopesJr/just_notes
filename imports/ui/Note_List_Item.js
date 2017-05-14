@@ -2,15 +2,11 @@ import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Session } from 'meteor/session'
-import { createContainer } from 'meteor/react-meteor-data'
 
-export const NoteListItem = (props) => {
-  const { title, updatedAt, _id } = props.note
+const NoteListItem = (props) => {
+  const { title, updatedAt } = props.note
   return (
-    <div onClick={() => {
-      props.Session.set('selectedNoteId', _id)
-    }}>
+    <div>
       <h5>{ title || 'Untitled' }</h5>
       <p>{  moment(updatedAt).format('MMM DD, YYYY') }</p>
     </div>
@@ -18,10 +14,7 @@ export const NoteListItem = (props) => {
 }
 
 NoteListItem.propTypes = {
-  note: PropTypes.object.isRequired,
-  Session: PropTypes.object.isRequired
+  note: PropTypes.object.isRequired
 }
 
-export default createContainer(() => {
-  return { Session }
-}, NoteListItem)
+export default NoteListItem
