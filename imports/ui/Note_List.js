@@ -5,6 +5,7 @@ import { Notes } from '../api/notes'
 import PropTypes from 'prop-types'
 import NoteListHeader from './Note_List_Header'
 import NoteListItem from './Note_List_Item'
+import NoteListEmptyItem from './Note_List_Empty_Item'
 
 
 export const NoteList = (props) => {
@@ -13,6 +14,7 @@ export const NoteList = (props) => {
   return (
     <div>
       NoteList { notes.length }
+      {notes.length === 0 ? <NoteListEmptyItem/> : undefined}
       <NoteListHeader/>
       {props.notes.map((note) => {
         return <NoteListItem key={ note._id } note={note}/>

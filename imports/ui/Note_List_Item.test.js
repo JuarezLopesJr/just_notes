@@ -13,7 +13,7 @@ if (Meteor.isClient) {
       const wrapper = mount(<NoteListItem note={{title, updatedAt}}/>)
 
       expect(wrapper.find('h5').text()).toBe(title)
-      expect(wrapper.find('p').text()).toBe('1494700222936')
+      expect(wrapper.find('p').text()).toBe('May 13, 2017')
 
     })
 
