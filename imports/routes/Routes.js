@@ -5,6 +5,7 @@ import Signup from '../ui/Signup'
 import Dashboard from '../ui/Dashboard'
 import NotFound from '../ui/404'
 import Login from '../ui/Login'
+import { Session } from 'meteor/session'
 
 const unAuthPages = ['/', '/signup'] // if logged in dont show this
 const authPages = ['/dashboard'] // show only if logged in
@@ -18,6 +19,14 @@ const onPublicPage = () => {
 const onPrivatePage = () => {
   if (!Meteor.userId()) {
     browserHistory.replace('/')
+  }
+}
+
+const onNotePage = (nextState) => {
+  if (!Meteor.userId()) {
+    browserHistory.replace('/')
+  } else {
+    Session.set('selectedNoteId', nextState.params.id)
   }
 }
 
@@ -39,7 +48,7 @@ export const routes = (
     <Route path='/' component={Login} onEnter={onPublicPage}/>
     <Route path='/signup' component={Signup} onEnter={onPublicPage}/>
     <Route path='/dashboard' component={Dashboard} onEnter={onPrivatePage}/>
-    <Route path='/dashboard/:id' component={Dashboard} onEnter={onPrivatePage}/>
+    <Route path='/dashboard/:id' component={Dashboard} onEnter={onNotePage}/>
     <Route path='*' component={NotFound} />
   </Router>
 )
