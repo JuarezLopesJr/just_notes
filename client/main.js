@@ -10,6 +10,8 @@ import { browserHistory } from 'react-router'
 
 Tracker.autorun(() => {
   const isAuth = !!Meteor.userId()
+  const currentPrivacyPage = Session.get('currentPrivacyPage')
+
   onAuthChange(isAuth)
 })
 

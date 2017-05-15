@@ -43,12 +43,32 @@ export const onAuthChange = (isAuth) => {
 
 }
 
+export const onRootEnter = (nextState) => {
+  const lastRoute = nextState.routes[nextState.routes.length -1]
+  Session.set('currentPrivacyPage', lastRoute.privacy)
+// also set the currentPrivacyPage value in client/main.js to the Tracker
+}
+
+export const onRootChange = (prevState, nextState) => {
+  onRootEnter(nextState)
+}
+
 export const routes = (
   <Router history={browserHistory}>
-    <Route path='/' component={Login} onEnter={onPublicPage}/>
-    <Route path='/signup' component={Signup} onEnter={onPublicPage}/>
-    <Route path='/dashboard' component={Dashboard} onEnter={onPrivatePage}/>
-    <Route path='/dashboard/:id' component={Dashboard} onEnter={onNotePage}/>
-    <Route path='*' component={NotFound} />
+{/* i'm nesting routes to keep track of url dynamic changes
+  and passing some custom props(private) to set the values of the url path
+  to use it with Session set/get method, that way i'll always redirect to the
+  right dynamic url provided by /dashboard/:id
+  After nesting routes, i'm gonna call 2 functions to execute this task
+  onEnter - executes first when the page is loaded
+  onChange - keep track of the dynamic url
+ */}
+    <Route onEnter={onRootEnter}  onChange={onRootChange}>
+      <Route path='/' component={Login} privacy='unauth' onEnter={onPublicPage}/>
+      <Route path='/signup' component={Signup} privacy='unauth' onEnter={onPublicPage}/>
+      <Route path='/dashboard' component={Dashboard} privacy='auth' onEnter={onPrivatePage}/>
+      <Route path='/dashboard/:id' component={Dashboard} privacy='auth' onEnter={onNotePage}/>
+      <Route path='*' component={NotFound} />
+  </Route>
   </Router>
 )
