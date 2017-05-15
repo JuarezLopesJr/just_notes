@@ -7,33 +7,35 @@ import NotFound from '../ui/404'
 import Login from '../ui/Login'
 import { Session } from 'meteor/session'
 
-const unAuthPages = ['/', '/signup'] // if logged in dont show this
-const authPages = ['/dashboard'] // show only if logged in
+// const unAuthPages = ['/', '/signup'] // if logged in dont show this
+// const authPages = ['/dashboard'] // show only if logged in
 // avoid already authenticated users go back to signup page with back button
-const onPublicPage = () => {
-  if (Meteor.userId()) {
-    browserHistory.replace('/dashboard')
-  }
-}
-// this method avoid unauthorized users to go back using browser back button
-const onPrivatePage = () => {
-  if (!Meteor.userId()) {
-    browserHistory.replace('/')
-  }
-}
+// const onPublicPage = () => {
+//   if (Meteor.userId()) {
+//     browserHistory.replace('/dashboard')
+//   }
+// }
+// // this method avoid unauthorized users to go back using browser back button
+// const onPrivatePage = () => {
+//   if (!Meteor.userId()) {
+//     browserHistory.replace('/')
+//   }
+// }
 
 const onNotePage = (nextState) => {
-  if (!Meteor.userId()) {
-    browserHistory.replace('/')
-  } else {
+  // if (!Meteor.userId()) {
+    // browserHistory.replace('/')
     Session.set('selectedNoteId', nextState.params.id)
   }
+
+const onLeaveNotePage = () => {
+  Session.set('selectedNoteId', undefined)
 }
 
-export const onAuthChange = (isAuth) => {
-  const { pathname } = browserHistory.getCurrentLocation()
-  const isUnAuthPage = unAuthPages.includes(pathname)
-  const isAuthPage = authPages.includes(pathname)
+export const onAuthChange = (isAuth, currentPrivacyPage) => {
+  // const { pathname } = browserHistory.getCurrentLocation()
+  const isUnAuthPage = currentPrivacyPage === 'unauth'  //unAuthPages.includes(pathname)
+  const isAuthPage = currentPrivacyPage === 'auth' //authPages.includes(pathname)
 
   if (isUnAuthPage && isAuth) { // if logged in dont show this, show /dashboard
     browserHistory.replace('/dashboard')
@@ -64,10 +66,13 @@ export const routes = (
   onChange - keep track of the dynamic url
  */}
     <Route onEnter={onRootEnter}  onChange={onRootChange}>
-      <Route path='/' component={Login} privacy='unauth' onEnter={onPublicPage}/>
-      <Route path='/signup' component={Signup} privacy='unauth' onEnter={onPublicPage}/>
-      <Route path='/dashboard' component={Dashboard} privacy='auth' onEnter={onPrivatePage}/>
-      <Route path='/dashboard/:id' component={Dashboard} privacy='auth' onEnter={onNotePage}/>
+      <Route path='/' component={Login} privacy='unauth' />
+      <Route path='/signup' component={Signup} privacy='unauth' />
+      <Route path='/dashboard' component={Dashboard} privacy='auth' />
+      <Route path='/dashboard/:id' component={Dashboard}
+      privacy='auth'
+      onEnter={onNotePage}
+      onLeave={onLeaveNotePage}/>
       <Route path='*' component={NotFound} />
   </Route>
   </Router>
