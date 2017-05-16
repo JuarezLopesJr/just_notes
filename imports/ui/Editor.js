@@ -4,25 +4,51 @@ import { Session } from 'meteor/session'
 import { Notes } from '../api/notes'
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
+import { browserHistory } from 'react-router'
 
 export class Editor extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      title: '',
+      content: ''
+    }
+
+
     this.onNoteChange = this.onNoteChange.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
+    this.handleDeleteNote = this.handleDeleteNote.bind(this)
   }
 
   onTitleChange(e) {
-    this.props.call('notes.update', this.props.note._id, {
-      title: e.target.value
-    })
+    const title = e.target.value
+    this.setState({ title })
+    this.props.call('notes.update', this.props.note._id, { title })
   }
 
   onNoteChange(e) {
-    this.props.call('notes.update', this.props.note._id, {
-      content: e.target.value
-    })
+    const content = e.target.value
+    this.setState({ content })
+    this.props.call('notes.update', this.props.note._id, { content })
+  }
+
+  handleDeleteNote() {
+    this.props.call('notes.remove', this.props.note._id)
+    browserHistory.replace('/dashboard')
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { note } = this.props
+    const currentNoteId = note ? note._id : undefined
+    const prevNoteId = prevProps.note ? prevProps.note._id : undefined
+
+    if (currentNoteId && currentNoteId !== prevNoteId) {
+      this.setState({
+        title: this.props.note.title,
+        content: this.props.note.content
+      })
+    }
   }
 
   render () {
@@ -30,17 +56,15 @@ export class Editor extends Component {
     if (note) {
       return (
         <div>
-          <input value={note.title}
+          <input value={this.state.title}
           placeholder='Title here'
           onChange={this.onTitleChange}/>
 
-          <textarea value={note.content}
+          <textarea value={this.state.content}
             onChange={this.onNoteChange}
             placeholder='Type note here'>
             </textarea>
-          <button onClick={() => {
-            this.props.call('notes.remove', note._id)
-          }}>Delete note</button>
+          <button onClick={this.handleDeleteNote}>Delete note</button>
         </div>
       )
     } else {
