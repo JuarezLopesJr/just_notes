@@ -5,14 +5,15 @@ import SimpleSchema from 'simpl-schema'
 export const validateNewUser = (user) => {
   const email = user.emails[0].address
 
-  new SimpleSchema({
+  const emailSchema = new SimpleSchema({
     email: {
       type: String,
       regEx: SimpleSchema.RegEx.Email
     }
-  }).validate({email})
+  }).validate({ email })
 
   return true
+
 }
 
 if (Meteor.isServer) {

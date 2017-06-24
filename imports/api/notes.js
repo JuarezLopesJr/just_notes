@@ -1,18 +1,14 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
-import moment from 'moment'
 import SimpleSchema from 'simpl-schema'
+import moment from 'moment'
 
-if (Meteor.isServer) {
-  Meteor.publish('notes', function () {
-    return Notes.find({ userId: this.userId })
-  })
-}
+export const Notes = new Mongo.Collection('notes')
 
 Meteor.methods({
-  'notes.insert'() {
+  'notes.create': function () {
     if (!this.userId) {
-      throw new Meteor.Error('not logged / not authorized')
+      throw new Meteor.Error(400, 'Access Denied! User not logged!')
     }
 
     return Notes.insert({
@@ -23,25 +19,24 @@ Meteor.methods({
     })
   },
 
-  'notes.remove'(_id) {
+  'notes.remove': function (_id) {
     if (!this.userId) {
-      throw new Meteor.Error('Not authorized')
+      throw new Meteor.Error(400, 'Access Denied! User not logged!')
     }
-
     new SimpleSchema({
       _id: {
         type: String,
         min: 1
       }
-    }).validate({ _id })      // always check the ownerId
+    }).validate({ _id })
+
     return Notes.remove({ _id, userId: this.userId })
   },
 
-  'notes.update'(_id, updates) {
+  'notes.update': function (_id, updates) {
     if (!this.userId) {
-      throw new Meteor.Error('Not authorized')
+      throw new Meteor.Error(400, 'Access Denied! User not logged!')
     }
-
     new SimpleSchema({
       _id: {
         type: String,
@@ -55,23 +50,15 @@ Meteor.methods({
         type: String,
         optional: true
       }
-    }).validate({ _id, ...updates })
-    // using spread operators syntax to filter malicious code not defined
-    // in the SimpleSchema method, which will prevent bad code inside the db
-
-    return Notes.update({
-      _id,
-    userId: this.userId
-  },
-    {
-      $set: {
-        updatedAt: moment().valueOf(),
-        ...updates // already validate code from SimpleSchema
-        // it could be only the body, only the title or both updated
-      }
-    })
-  }
-
+  }).validate({
+    _id,
+    ...updates
+  })
+  return Notes.update(_id, {
+    $set: {
+      updatedAt: moment().valueOf(),
+      ...updates
+    }
+  })
+ }
 })
-
-export const Notes = new Mongo.Collection('notes')

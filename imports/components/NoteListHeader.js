@@ -1,13 +1,14 @@
 import React from 'react'
-import { createContainer } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
+import { createContainer } from 'meteor/react-meteor-data'
 import PropTypes from 'prop-types'
 
-export const NoteListHeader = (props) => {
-  const { meteorCall } = props
+const NoteListHeader = ({ meteorCall }) => {
   return (
     <div>
-      <button onClick={() => meteorCall('notes.insert')} >Create New</button>
+      <button
+        onClick={ () => meteorCall('notes.create') }
+        >Create note</button>
     </div>
   )
 }
@@ -16,8 +17,7 @@ NoteListHeader.propTypes = {
   meteorCall: PropTypes.func.isRequired
 }
 
+
 export default createContainer(() => {
-  return {
-    meteorCall: Meteor.call
-  }
+  return { meteorCall: Meteor.call }
 }, NoteListHeader)
